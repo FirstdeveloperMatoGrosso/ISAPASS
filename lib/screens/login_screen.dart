@@ -91,16 +91,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Logo e Título
                     Container(
                       padding: EdgeInsets.all(isSmallScreen ? 16.0 : 24.0),
                       decoration: BoxDecoration(
-                        color: Colors.white.withAlpha(26),
+                        color: Colors.white.withValues(alpha: 26),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Column(
                         children: [
-                          // Logo IsaPass
                           ShaderMask(
                             shaderCallback: (bounds) => const LinearGradient(
                               colors: [
@@ -122,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             'Gestão de Eventos',
                             style: TextStyle(
-                              color: Colors.white.withAlpha(179),
+                              color: Colors.white.withValues(alpha: 179),
                               fontSize: isSmallScreen ? 14 : 16,
                               letterSpacing: 1.5,
                             ),
@@ -131,11 +129,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(height: isSmallScreen ? 24.0 : 32.0),
-                    // Formulário de Login
                     Container(
                       padding: EdgeInsets.all(isSmallScreen ? 20.0 : 32.0),
                       decoration: BoxDecoration(
-                        color: Colors.white.withAlpha(26),
+                        color: Colors.white.withValues(alpha: 26),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Column(
@@ -173,9 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
+                              fillColor: Colors.white.withValues(alpha: 26),
                               hintStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.3),
+                                color: Colors.white.withValues(alpha: 77),
                               ),
                             ),
                           ),
@@ -214,9 +211,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
+                              fillColor: Colors.white.withValues(alpha: 26),
                               hintStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.3),
+                                color: Colors.white.withValues(alpha: 77),
                               ),
                             ),
                           ),
