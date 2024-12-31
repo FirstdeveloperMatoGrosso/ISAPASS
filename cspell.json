@@ -83,7 +83,30 @@
     "mais",
     "Título",
     "Gestão",
-    "Digite"
+    "Digite",
+    "recuperar",
+    "enviado",
+    "caixa",
+    "entrada",
+    "Enviando",
+    "enviar",
+    "Melhorias",
+    "tela",
+    "Implementada",
+    "Corrigidos",
+    "avisos",
+    "depreciação",
+    "Adicionadas",
+    "palavras",
+    "português",
+    "dicionário",
+    "Corrigido",
+    "assíncrono",
+    "Removido",
+    "código",
+    "não",
+    "utilizado",
+    "correções"
   ],
   "ignoreRegExpList": [
     "supabase\\.co",
@@ -93,6 +116,7 @@
     "node_modules/**",
     "build/**",
     ".dart_tool/**",
-    ".pub-cache/**"
+    ".pub-cache/**",
+    ".git/**"
   ]
 }
