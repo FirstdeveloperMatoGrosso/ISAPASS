@@ -89,7 +89,25 @@
     "caixa",
     "entrada",
     "Enviando",
-    "enviar"
+    "enviar",
+    "Melhorias",
+    "tela",
+    "Implementada",
+    "Corrigidos",
+    "avisos",
+    "depreciação",
+    "Adicionadas",
+    "palavras",
+    "português",
+    "dicionário",
+    "Corrigido",
+    "assíncrono",
+    "Removido",
+    "código",
+    "não",
+    "utilizado",
+    "git",
+    "correções"
   ],
   "ignoreRegExpList": [
     "supabase\\.co",
@@ -99,6 +117,7 @@
     "node_modules/**",
     "build/**",
     ".dart_tool/**",
-    ".pub-cache/**"
+    ".pub-cache/**",
+    ".git/**"
   ]
 }
