@@ -28,7 +28,9 @@ class AuthService {
       _logger.info('User logged in successfully: ${response.user?.email}');
     } catch (error) {
       _logger.warning('Login failed', error);
-      throw AuthException(message: 'Erro ao fazer login. Verifique suas credenciais.');
+      throw AuthException(
+        'Erro ao fazer login. Verifique suas credenciais.',
+      );
     }
   }
 
