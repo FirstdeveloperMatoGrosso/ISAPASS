@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,17 +10,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _authService = AuthService();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _obscurePassword = true;
-  late BuildContext _context;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -28,47 +22,47 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _context = context;
-  }
-
   Future<void> _handleLogin() async {
-    if (!mounted) return;
-    
-    setState(() => _isLoading = true);
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
 
     try {
-      final success = await _authService.login(
-        _emailController.text.trim(),
+      await AuthService().signIn(
+        _emailController.text,
         _passwordController.text,
       );
 
-      if (!mounted) return;
-
-      if (success) {
-        Navigator.of(_context).pushReplacementNamed('/home');
-      } else {
-        _showError('E-mail ou senha inválidos');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/home');
       }
-    } catch (e) {
+    } on AuthException catch (error) {
       if (!mounted) return;
-      _showError('Erro: ${e.toString()}');
-    }
-    
-    if (mounted) {
-      setState(() => _isLoading = false);
-    }
-  }
 
-  void _showError(String message) {
-    ScaffoldMessenger.of(_context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error.message),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (error) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao fazer login'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
