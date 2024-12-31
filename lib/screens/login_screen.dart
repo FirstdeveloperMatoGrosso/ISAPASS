@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      await AuthService().signIn(
+      await AuthService().login(
         _emailController.text,
         _passwordController.text,
       );
@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Erro ao fazer login'),
+          content: Text('Ocorreu um erro inesperado. Tente novamente mais tarde.'),
           backgroundColor: Colors.red,
         ),
       );

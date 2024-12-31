@@ -18,7 +18,7 @@ class AuthService {
   // Alias for backward compatibility
   Future<void> logout() => signOut();
 
-  Future<bool> login(String email, String password) async {
+  Future<void> login(String email, String password) async {
     try {
       final response = await _supabase.auth.signInWithPassword(
         email: email,
@@ -26,10 +26,9 @@ class AuthService {
       );
 
       _logger.info('User logged in successfully: ${response.user?.email}');
-      return true;
     } catch (error) {
       _logger.warning('Login failed', error);
-      return false;
+      throw AuthException(message: 'Erro ao fazer login. Verifique suas credenciais.');
     }
   }
 
