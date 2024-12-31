@@ -1,0 +1,46 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "supabase",
+    "cupertino",
+    "Poppins",
+    "ISAPASS",
+    "Evento",
+    "evento",
+    "eventos",
+    "criado",
+    "sucesso",
+    "Erro",
+    "criar",
+    "Área",
+    "Imagem",
+    "Adicionar",
+    "insira",
+    "Descrição",
+    "Preço",
+    "preço",
+    "válido",
+    "Capacidade",
+    "Máxima",
+    "capacidade",
+    "número",
+    "Botão",
+    "Criar",
+    "buscar",
+    "atualizado",
+    "atualizar",
+    "deletado",
+    "deletar"
+  ],
+  "ignoreRegExpList": [
+    "supabase\\.co",
+    "[A-Za-z0-9]{4,}\\.[A-Za-z0-9]{4,}\\.[A-Za-z0-9]{4,}"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    "build/**",
+    ".dart_tool/**",
+    ".pub-cache/**"
+  ]
+}
