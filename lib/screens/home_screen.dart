@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../services/auth_service.dart';
+import 'admin_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,466 +12,595 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFF1E1E2F),
-      appBar: AppBar(
-        title: const Text(
-          'Dashboard',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1,
+      body: Row(
+        children: [
+          // Menu Lateral Fixo
+          Container(
+            width: 250,
+            color: const Color(0xFF1E1E2F),
+            child: Column(
+              children: [
+                // Cabeçalho com informações do usuário
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(26),
+                              blurRadius: 10,
+                              offset: const Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Admin',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        'admin@isapass.com',
+                        style: TextStyle(
+                          color: Colors.white.withAlpha(128),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Itens do Menu
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    children: [
+                      ListTile(
+                        leading: const Icon(
+                          Icons.dashboard_outlined,
+                          color: Colors.white,
+                        ),
+                        title: const Text(
+                          'Dashboard',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.event,
+                          color: Colors.white,
+                        ),
+                        title: const Text(
+                          'Eventos',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/events');
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.admin_panel_settings,
+                          color: Colors.white,
+                        ),
+                        title: const Text(
+                          'Administração',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AdminScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Divider(color: Colors.white24),
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.people_outline,
+                          color: Colors.white,
+                        ),
+                        title: const Text(
+                          'Usuários',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.person_add_outlined,
+                          color: Colors.white,
+                        ),
+                        title: const Text(
+                          'Incluir Usuário',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {},
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Divider(color: Colors.white24),
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.settings_outlined,
+                          color: Colors.white,
+                        ),
+                        title: const Text(
+                          'Configurações',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.help_outline,
+                          color: Colors.white,
+                        ),
+                        title: const Text(
+                          'Ajuda',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {},
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Divider(color: Colors.white24),
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.logout_outlined,
+                          color: Colors.white,
+                        ),
+                        title: const Text(
+                          'Sair',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () async {
+                          await authService.signOut();
+                          if (context.mounted) {
+                            Navigator.of(context).pushReplacementNamed('/login');
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        backgroundColor: Colors.white.withAlpha(13),
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await authService.signOut();
-              if (context.mounted) {
-                Navigator.of(context).pushReplacementNamed('/login');
-              }
-            },
+          // Conteúdo Principal
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Text(
+                    'Dashboard Eventos',
+                    style: TextStyle(
+                      color: Colors.white.withAlpha(128),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildCard(
+                                icon: Icons.event,
+                                value: '12',
+                                label: 'Total de Eventos',
+                                color: const Color(0xFF6366F1),
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _buildCard(
+                                icon: Icons.confirmation_number,
+                                value: '158',
+                                label: 'Ingressos Vendidos',
+                                color: const Color(0xFF10B981),
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFF10B981), Color(0xFF34D399)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _buildCard(
+                                icon: Icons.people,
+                                value: '1.2k',
+                                label: 'Usuários Ativos',
+                                color: const Color(0xFFF59E0B),
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFFF59E0B), Color(0xFFFBBF24)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _buildCard(
+                                icon: Icons.attach_money,
+                                value: 'R\$15.8k',
+                                label: 'Receita Total',
+                                color: const Color(0xFF3B82F6),
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFF3B82F6), Color(0xFF60A5FA)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          'Análise de Dados',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 350,
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withAlpha(13),
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: Colors.white.withAlpha(26),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Vendas Mensais',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Expanded(
+                                      child: LineChart(mainData()),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 24),
+                            Expanded(
+                              child: Container(
+                                height: 350,
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withAlpha(13),
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: Colors.white.withAlpha(26),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Distribuição de Ingressos',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Expanded(
+                                      child: PieChart(pieData()),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
-      drawer: Drawer(
-        backgroundColor: const Color(0xFF1E1E2F),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    const Color(0xFF6C63FF).withAlpha(179),
-                    const Color(0xFF4CAF50).withAlpha(179),
-                  ],
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.person,
-                      size: 40,
-                      color: Color(0xFF6C63FF),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Admin',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'admin@isapass.com',
-                    style: TextStyle(
-                      color: Colors.white.withAlpha(179),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.dashboard, color: Colors.white),
-              title: Text(
-                'Dashboard',
-                style: TextStyle(
-                  color: Colors.white.withAlpha(230),
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.event, color: Colors.white),
-              title: Text(
-                'Events',
-                style: TextStyle(
-                  color: Colors.white.withAlpha(230),
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.people, color: Colors.white),
-              title: Text(
-                'Users',
-                style: TextStyle(
-                  color: Colors.white.withAlpha(230),
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings, color: Colors.white),
-              title: Text(
-                'Settings',
-                style: TextStyle(
-                  color: Colors.white.withAlpha(230),
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(constraints.maxWidth > 600 ? 24 : 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Overview',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: _calculateCrossAxisCount(constraints.maxWidth),
-                      crossAxisSpacing: constraints.maxWidth > 600 ? 24 : 16,
-                      mainAxisSpacing: constraints.maxWidth > 600 ? 24 : 16,
-                      childAspectRatio: constraints.maxWidth > 600 ? 1.5 : 1.3,
-                    ),
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      final items = [
-                        {
-                          'title': 'Total Events',
-                          'value': '12',
-                          'icon': Icons.event,
-                          'color': const Color(0xFF6C63FF),
-                        },
-                        {
-                          'title': 'Tickets Sold',
-                          'value': '158',
-                          'icon': Icons.confirmation_number,
-                          'color': const Color(0xFF4CAF50),
-                        },
-                        {
-                          'title': 'Active Users',
-                          'value': '1.2k',
-                          'icon': Icons.people,
-                          'color': const Color(0xFFFFA726),
-                        },
-                        {
-                          'title': 'Total Revenue',
-                          'value': '\$15.8k',
-                          'icon': Icons.attach_money,
-                          'color': const Color(0xFF66BB6A),
-                        },
-                      ];
-
-                      return _buildCard(
-                        title: items[index]['title'] as String,
-                        value: items[index]['value'] as String,
-                        icon: items[index]['icon'] as IconData,
-                        color: items[index]['color'] as Color,
-                        constraints: constraints,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 32),
-                  _buildChartSection(constraints),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, '/create-event'),
         backgroundColor: const Color(0xFF6C63FF),
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  Widget _buildChartSection(BoxConstraints constraints) {
-    final isSmallScreen = constraints.maxWidth <= 600;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Data Analysis',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1,
+  Widget _buildCard({
+    required IconData icon,
+    required String value,
+    required String label,
+    required Color color,
+    required Gradient gradient,
+  }) {
+    return Container(
+      height: 80,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        gradient: gradient,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: color.withAlpha(128),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(128),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: Colors.white, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  value,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: Colors.white.withAlpha(128),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  LineChartData mainData() {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: false,
+        horizontalInterval: 1,
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+            color: Colors.white.withAlpha(128),
+            strokeWidth: 1,
+            dashArray: [5, 5],
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTitlesWidget: (value, meta) {
+              const style = TextStyle(
+                color: Colors.white54,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              );
+              return Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Text('\$${value.toInt()}k', style: style),
+              );
+            },
+            reservedSize: 40,
           ),
         ),
-        const SizedBox(height: 20),
-        Wrap(
-          spacing: isSmallScreen ? 16 : 24,
-          runSpacing: isSmallScreen ? 16 : 24,
-          children: [
-            _buildChartCard(
-              title: 'Monthly Sales',
-              width: _calculateChartWidth(constraints.maxWidth),
-              height: 300,
-              chart: LineChart(
-                LineChartData(
-                  gridData: FlGridData(show: false),
-                  titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 40,
-                        getTitlesWidget: (value, meta) {
-                          return Text(
-                            '\$${value.toInt()}k',
-                            style: TextStyle(
-                              color: Colors.white.withAlpha(179),
-                              fontSize: 12,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, meta) {
-                          const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
-                          if (value.toInt() < months.length) {
-                            return Text(
-                              months[value.toInt()],
-                              style: TextStyle(
-                                color: Colors.white.withAlpha(179),
-                                fontSize: 12,
-                              ),
-                            );
-                          }
-                          return const Text('');
-                        },
-                      ),
-                    ),
-                    rightTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    topTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                  ),
-                  borderData: FlBorderData(show: false),
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: const [
-                        FlSpot(0, 3),
-                        FlSpot(1, 4),
-                        FlSpot(2, 3.5),
-                        FlSpot(3, 5),
-                        FlSpot(4, 4),
-                        FlSpot(5, 6),
-                      ],
-                      isCurved: true,
-                      color: const Color(0xFF6C63FF),
-                      barWidth: 3,
-                      isStrokeCapRound: true,
-                      dotData: FlDotData(show: false),
-                      belowBarData: BarAreaData(
-                        show: true,
-                        color: const Color(0xFF6C63FF).withAlpha(51),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            _buildChartCard(
-              title: 'Ticket Distribution',
-              width: _calculateChartWidth(constraints.maxWidth),
-              height: 300,
-              chart: PieChart(
-                PieChartData(
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 70,
-                  sections: [
-                    PieChartSectionData(
-                      color: const Color(0xFF6C63FF),
-                      value: 40,
-                      title: '40%',
-                      radius: 50,
-                      titleStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    PieChartSectionData(
-                      color: const Color(0xFF4CAF50),
-                      value: 30,
-                      title: '30%',
-                      radius: 50,
-                      titleStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    PieChartSectionData(
-                      color: const Color(0xFFFFA726),
-                      value: 30,
-                      title: '30%',
-                      radius: 50,
-                      titleStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            interval: 2,
+            getTitlesWidget: (value, meta) {
+              const style = TextStyle(
+                color: Colors.white54,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              );
+              var text = '';
+              switch (value.toInt()) {
+                case 0:
+                  text = 'Jan';
+                  break;
+                case 2:
+                  text = 'Fev';
+                  break;
+                case 4:
+                  text = 'Mar';
+                  break;
+                case 6:
+                  text = 'Abr';
+                  break;
+                case 8:
+                  text = 'Mai';
+                  break;
+                case 10:
+                  text = 'Jun';
+                  break;
+              }
+              return Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(text, style: style),
+              );
+            },
+          ),
+        ),
+      ),
+      borderData: FlBorderData(show: false),
+      minX: 0,
+      maxX: 11,
+      minY: 3,
+      maxY: 6,
+      lineBarsData: [
+        LineChartBarData(
+          spots: const [
+            FlSpot(0, 3.5),
+            FlSpot(1, 4),
+            FlSpot(2, 3.8),
+            FlSpot(3, 3.2),
+            FlSpot(4, 4.2),
+            FlSpot(5, 5),
+            FlSpot(6, 4.8),
+            FlSpot(7, 4.2),
+            FlSpot(8, 3.8),
+            FlSpot(9, 3.6),
+            FlSpot(10, 4.2),
+            FlSpot(11, 5.8),
           ],
+          isCurved: true,
+          gradient: const LinearGradient(
+            colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+          ),
+          barWidth: 4,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: true,
+            getDotPainter: (spot, percent, barData, index) {
+              return FlDotCirclePainter(
+                radius: 6,
+                color: Colors.white,
+                strokeWidth: 3,
+                strokeColor: const Color(0xFF6366F1),
+              );
+            },
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFF6366F1).withAlpha(128),
+                const Color(0xFF8B5CF6).withAlpha(0),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildChartCard({
-    required String title,
-    required double width,
-    required double height,
-    required Widget chart,
-  }) {
-    return Container(
-      width: width,
-      height: height,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white.withAlpha(13),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(26),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 24),
-          Expanded(child: chart),
-        ],
-      ),
-    );
-  }
-
-  double _calculateChartWidth(double screenWidth) {
-    if (screenWidth > 1200) return (screenWidth - 72) / 2;
-    if (screenWidth > 900) return (screenWidth - 72) / 2;
-    if (screenWidth > 600) return screenWidth - 48;
-    return screenWidth - 32;
-  }
-
-  int _calculateCrossAxisCount(double width) {
-    if (width > 1200) return 4;
-    if (width > 900) return 3;
-    if (width > 600) return 2;
-    return 1;
-  }
-
-  Widget _buildCard({
-    required String title,
-    required String value,
-    required IconData icon,
-    required Color color,
-    required BoxConstraints constraints,
-  }) {
-    final isSmallScreen = constraints.maxWidth <= 600;
-    final double iconSize = isSmallScreen ? 32 : 40;
-    final double fontSize = isSmallScreen ? 20 : 24;
-    final double subtitleSize = isSmallScreen ? 12 : 14;
-    final EdgeInsets padding = isSmallScreen 
-        ? const EdgeInsets.all(16)
-        : const EdgeInsets.all(24);
-
-    return Container(
-      padding: padding,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            color.withAlpha(179),
-            color.withAlpha(128),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(26),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: iconSize,
+  PieChartData pieData() {
+    return PieChartData(
+      sectionsSpace: 0,
+      centerSpaceRadius: 60,
+      sections: [
+        PieChartSectionData(
+          color: const Color(0xFF6366F1),
+          value: 40,
+          title: '40%',
+          radius: 50,
+          titleStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-            ),
+        ),
+        PieChartSectionData(
+          color: const Color(0xFF10B981),
+          value: 30,
+          title: '30%',
+          radius: 50,
+          titleStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white.withAlpha(179),
-              fontSize: subtitleSize,
-            ),
-            textAlign: TextAlign.center,
+        ),
+        PieChartSectionData(
+          color: const Color(0xFFF59E0B),
+          value: 30,
+          title: '30%',
+          radius: 50,
+          titleStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -36,6 +36,8 @@ dependencies:
   image_picker_web: ^3.1.1
   cupertino_icons: ^1.0.2
   fl_chart: ^0.65.0
+  intl: ^0.20.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -53,11 +55,16 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
   uses-material-design: true
 
   assets:
     - assets/images/
-    - assets/fonts/
+    - assets/fonts/Poppins-Regular.ttf
+    - assets/fonts/Poppins-Bold.ttf
+    - assets/fonts/Poppins-SemiBold.ttf
 
   fonts:
     - family: Poppins

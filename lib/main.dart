@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/login_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/admin_screen.dart';
+import 'screens/events_screen.dart';
+import 'screens/create_event_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +24,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ISAPASS Admin',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/admin': (context) => AdminScreen(),
+        '/events': (context) => const EventsScreen(),
+        '/create-event': (context) => const CreateEventScreen(),
+      },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6C63FF),
@@ -60,7 +72,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
