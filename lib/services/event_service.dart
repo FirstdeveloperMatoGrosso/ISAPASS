@@ -12,6 +12,7 @@ class EventService {
     required String location,
     required double price,
     required int maxCapacity,
+    required String category,
     String? imageUrl,
   }) async {
     try {
@@ -22,6 +23,8 @@ class EventService {
         'location': location,
         'price': price,
         'max_capacity': maxCapacity,
+        'available_tickets': maxCapacity,
+        'category': category,
         'image_url': imageUrl,
         'created_by': _supabase.auth.currentUser?.id,
       }).select('id').single();
@@ -38,10 +41,20 @@ class EventService {
     try {
       final response = await _supabase
           .from('events')
-          .select()
+          .select('''
+            *,
+            tickets:event_tickets(count)
+          ''')
           .order('date', ascending: true);
 
-      return List<Map<String, dynamic>>.from(response);
+      // Calcular ingressos disponíveis
+      return List<Map<String, dynamic>>.from(response).map((event) {
+        final ticketsSold = event['tickets']?[0]?['count'] ?? 0;
+        return {
+          ...event,
+          'available_tickets': event['max_capacity'] - ticketsSold,
+        };
+      }).toList();
     } catch (error) {
       _logger.severe('Erro ao buscar eventos', error);
       return [];
@@ -71,6 +84,7 @@ class EventService {
     String? location,
     double? price,
     int? maxCapacity,
+    String? category,
     String? imageUrl,
   }) async {
     try {
@@ -81,6 +95,7 @@ class EventService {
         if (location != null) 'location': location,
         if (price != null) 'price': price,
         if (maxCapacity != null) 'max_capacity': maxCapacity,
+        if (category != null) 'category': category,
         if (imageUrl != null) 'image_url': imageUrl,
       };
 
