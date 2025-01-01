@@ -437,10 +437,10 @@ class _EventsScreenState extends State<EventsScreen> {
               ),
               sliver: SliverGrid(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: size.width > 1200 ? 3 : (size.width > 800 ? 2 : 1),
-                  childAspectRatio: 1.5,
-                  crossAxisSpacing: 24,
-                  mainAxisSpacing: 24,
+                  crossAxisCount: size.width > 1200 ? 4 : (size.width > 800 ? 3 : (size.width > 600 ? 2 : 1)),
+                  childAspectRatio: 1.2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {

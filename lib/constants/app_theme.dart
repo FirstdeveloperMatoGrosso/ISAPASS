@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   // Cores principais
-  static const primaryColor = Color(0xFF6366F1); // Indigo
-  static const secondaryColor = Color(0xFF4F46E5); // Indigo mais escuro
-  static const surfaceColor = Color(0xFFF3F4F6); // Cinza claro
+  static const primaryColor = Colors.blue;
+  static const secondaryColor = Color(0xFF4F46E5);
+  static const surfaceColor = Colors.white;
   static const backgroundColor = Colors.white;
-  static const errorColor = Color(0xFFDC2626); // Vermelho
-  static const successColor = Color(0xFF059669); // Verde
-  static const warningColor = Color(0xFFD97706); // Laranja
+  static const errorColor = Color(0xFFDC2626);
+  static const successColor = Color(0xFF059669);
+  static const warningColor = Color(0xFFD97706);
   static const accentColor = Color(0xFFFF6B6B);
   static const textColor = Color(0xFF2D3142);
 
@@ -37,41 +37,27 @@ class AppTheme {
     color: textColor,
   );
 
-  // Sombras
-  static List<BoxShadow> get lightShadow => [
-        BoxShadow(
-          color: Colors.black.withAlpha(26),
-          blurRadius: 4,
-          offset: const Offset(0, 2),
-        ),
-      ];
+  static const TextStyle bodyLarge = TextStyle(
+    fontSize: 16,
+    color: textColor,
+  );
 
-  static List<BoxShadow> get mediumShadow => [
-        BoxShadow(
-          color: Colors.black.withAlpha(38),
-          blurRadius: 8,
-          offset: const Offset(0, 4),
-        ),
-      ];
+  static const TextStyle bodyMedium = TextStyle(
+    fontSize: 14,
+    color: textColor,
+  );
 
-  // Bordas
-  static const double borderRadius = 12;
-  static const double borderRadiusSmall = 8;
-  static const double borderRadiusLarge = 16;
+  static const TextStyle bodySmall = TextStyle(
+    fontSize: 12,
+    color: textColor,
+  );
 
-  // Espaçamento
-  static const double spacingXSmall = 4;
-  static const double spacingSmall = 8;
-  static const double spacingMedium = 16;
-  static const double spacingLarge = 24;
-  static const double spacingXLarge = 32;
-
-  // Animações
+  // Duração de animações
   static const Duration animationDuration = Duration(milliseconds: 300);
   static const Curve animationCurve = Curves.easeInOut;
 
   static ThemeData get theme => ThemeData(
-        primaryColor: primaryColor,
+        useMaterial3: true,
         colorScheme: const ColorScheme.light(
           primary: primaryColor,
           secondary: secondaryColor,
@@ -86,23 +72,32 @@ class AppTheme {
           elevation: 0,
           centerTitle: true,
         ),
-        cardTheme: CardTheme(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-            side: BorderSide(color: Colors.grey.shade200),
-          ),
-        ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.grey[100],
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide.none,
           ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: primaryColor),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: errorColor),
+          ),
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: spacingMedium,
-            vertical: spacingMedium,
+            horizontal: 16,
+            vertical: 16,
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -111,11 +106,11 @@ class AppTheme {
             foregroundColor: Colors.white,
             elevation: 0,
             padding: const EdgeInsets.symmetric(
-              horizontal: spacingLarge,
-              vertical: spacingMedium,
+              horizontal: 24,
+              vertical: 16,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),
@@ -123,22 +118,9 @@ class AppTheme {
           style: TextButton.styleFrom(
             foregroundColor: primaryColor,
             padding: const EdgeInsets.symmetric(
-              horizontal: spacingMedium,
-              vertical: spacingSmall,
+              horizontal: 16,
+              vertical: 8,
             ),
-          ),
-        ),
-        chipTheme: ChipThemeData(
-          backgroundColor: Colors.grey[100]!,
-          selectedColor: primaryColor.withAlpha(51),
-          labelStyle: TextStyle(color: Colors.grey[800]),
-          secondaryLabelStyle: const TextStyle(color: primaryColor),
-          padding: const EdgeInsets.symmetric(
-            horizontal: spacingMedium,
-            vertical: spacingSmall,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadiusSmall),
           ),
         ),
       );
