@@ -76,7 +76,7 @@ class AppTheme {
           primary: primaryColor,
           secondary: secondaryColor,
           surface: surfaceColor,
-          background: surfaceColor,
+          surfaceContainerHighest: surfaceColor,
           error: errorColor,
         ),
         scaffoldBackgroundColor: surfaceColor,

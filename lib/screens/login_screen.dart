@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      await AuthService().login(
+      await AuthService().signIn(
         _emailController.text,
         _passwordController.text,
       );
