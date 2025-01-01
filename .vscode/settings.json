@@ -1,0 +1,31 @@
+{
+    "cSpell.language": "en,pt,pt_BR",
+    "cSpell.words": [
+        "Allianz",
+        "Arquibancada",
+        "Camarote",
+        "Cinza",
+        "escuro",
+        "Espaçamento",
+        "Gastronomia",
+        "Laranja",
+        "Mezanino",
+        "Música",
+        "Parque",
+        "Plateia",
+        "Sombras",
+        "Tecnologia",
+        "Vermelho",
+        "Villa"
+    ],
+    "cSpell.ignorePaths": [
+        "package-lock.json",
+        "node_modules",
+        "vscode-extension",
+        ".git/objects",
+        ".vscode",
+        ".vscode-insiders",
+        "build",
+        ".dart_tool"
+    ]
+}

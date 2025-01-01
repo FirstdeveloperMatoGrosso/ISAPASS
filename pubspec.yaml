@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.6.0
+  sdk: '>=3.2.3 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,14 +30,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cupertino_icons: ^1.0.2
   supabase_flutter: ^1.10.25
   logging: ^1.2.0
-  image_picker: ^1.0.5
+  universal_html: ^2.2.4
+  js: ^0.6.7
+  image_picker: ^1.0.4
   image_picker_web: ^3.1.1
-  cupertino_icons: ^1.0.2
   fl_chart: ^0.65.0
   intl: ^0.20.0
   shared_preferences: ^2.2.2
+  transparent_image: ^2.0.1
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -62,9 +66,7 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/fonts/Poppins-Regular.ttf
-    - assets/fonts/Poppins-Bold.ttf
-    - assets/fonts/Poppins-SemiBold.ttf
+    - assets/images/ticket_logo.svg
 
   fonts:
     - family: Poppins

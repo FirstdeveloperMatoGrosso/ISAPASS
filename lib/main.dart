@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:logging/logging.dart';
 import 'screens/login_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/admin_screen.dart';
+import 'screens/dashboard_screen.dart';
 import 'screens/events_screen.dart';
-import 'screens/create_event_screen.dart';
+import 'screens/admin_screen.dart';
+import 'constants/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
+  // Configurar o logger
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
+  });
+
   await Supabase.initialize(
-    url: 'https://uxocdqilpmjkxdpkxjsr.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4b2NkcWlscG1qa3hkcGt4anNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1ODUzNDAsImV4cCI6MjA1MTE2MTM0MH0.1b0WUeAARuKBoHBkLs7ypyJmFxMFmwOoh_uXCWGsw6o',
+    url: 'https://oldbtuwiwhcwbotlrdck.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9sZGJ0dXdpd2hjd2JvdGxyZGNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU1NjEzNjAsImV4cCI6MjA1MTEzNzM2MH0.9ekS4_Oh36dKFel_lJVS7BApTujCBfEtIvZnFShxlgY',
   );
 
   runApp(const MyApp());
@@ -23,56 +31,88 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ISAPASS Admin',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const LoginScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/admin': (context) => AdminScreen(),
-        '/events': (context) => const EventsScreen(),
-        '/create-event': (context) => const CreateEventScreen(),
-      },
+      title: 'IsaPass',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6C63FF),
-          primary: const Color(0xFF6C63FF),
-          secondary: const Color(0xFF4CAF50),
-        ),
         useMaterial3: true,
-        fontFamily: 'Poppins',
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: const Color(0xFF6C63FF),
-            elevation: 3,
-            shadowColor: Colors.black.withAlpha(77), 
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppTheme.primaryColor,
+          brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(color: AppTheme.primaryColor),
+          titleTextStyle: TextStyle(
+            color: Colors.grey[800],
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        textTheme: TextTheme(
+          headlineLarge: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey[800],
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey[800],
+          ),
+          titleLarge: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[800],
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 16,
+            color: Colors.grey[700],
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Colors.white.withAlpha(13), 
+          fillColor: Colors.grey[100],
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: Colors.white.withAlpha(26), 
-            ),
+            borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: Colors.white.withAlpha(26), 
-            ),
+            borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(
-              color: Color(0xFF6C63FF),
-              width: 2,
+            borderSide: BorderSide(color: AppTheme.primaryColor),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppTheme.primaryColor,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 12,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
         ),
       ),
       debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
+        '/events': (context) => const EventsScreen(),
+        '/admin': (context) => AdminScreen(),
+      },
     );
   }
 }

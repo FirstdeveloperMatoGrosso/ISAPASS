@@ -6,31 +6,66 @@ class AuthService {
   final _supabase = Supabase.instance.client;
   final _logger = Logger('AuthService');
 
-  Future<void> signOut() async {
-    try {
-      await _supabase.auth.signOut();
-      _logger.info('User signed out successfully');
-    } catch (error) {
-      _logger.severe('Error signing out', error);
-      rethrow;
-    }
-  }
-
-  // Alias for backward compatibility
-  Future<void> logout() => signOut();
-
-  Future<void> login(String email, String password) async {
+  Future<AuthResponse> signIn(String email, String password) async {
     try {
       final response = await _supabase.auth.signInWithPassword(
         email: email,
         password: password,
       );
 
-      _logger.info('User logged in successfully: ${response.user?.email}');
+      if (response.user == null) {
+        throw const CustomAuthException(
+          'Invalid credentials. Please check your email and password.',
+        );
+      }
+
+      _logger.info('User signed in successfully: ${response.user?.email}');
+      return response;
     } catch (error) {
-      _logger.warning('Login failed', error);
+      _logger.warning('Sign in failed', error);
+      if (error is AuthException && error.message.contains('Email not confirmed')) {
+        rethrow;
+      }
       throw const CustomAuthException(
-        'Erro ao fazer login. Verifique suas credenciais.',
+        'Failed to sign in. Please check your credentials.',
+      );
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await _supabase.auth.signOut();
+      _logger.info('User signed out successfully');
+    } catch (error) {
+      _logger.severe('Error signing out', error);
+      throw const CustomAuthException(
+        'Failed to sign out. Please try again.',
+      );
+    }
+  }
+
+  // Alias for backward compatibility
+  Future<void> logout() => signOut();
+
+  Future<AuthResponse> signUp(String email, String password) async {
+    try {
+      final response = await _supabase.auth.signUp(
+        email: email,
+        password: password,
+      );
+
+      if (response.user == null) {
+        throw const CustomAuthException(
+          'Failed to create account. Please try again.',
+        );
+      }
+
+      _logger.info('User signed up successfully: ${response.user?.email}');
+      return response;
+    } catch (error) {
+      _logger.warning('Sign up failed', error);
+      throw const CustomAuthException(
+        'Failed to create account. Please try again later.',
       );
     }
   }
@@ -45,13 +80,28 @@ class AuthService {
     try {
       await _supabase.auth.resetPasswordForEmail(
         email,
-        redirectTo: 'io.supabase.isapass://reset-callback/',
+        redirectTo: 'https://oldbtuwiwhcwbotlrdck.supabase.co/auth/v1/callback',
       );
-      _logger.info('Password reset email sent to: $email');
+      _logger.info('Password reset email sent to $email');
     } catch (error) {
-      _logger.severe('Error sending password reset email', error);
+      _logger.severe('Error sending password reset email: $error');
+      throw CustomAuthException(
+        'Error sending password reset email. Please try again.',
+      );
+    }
+  }
+
+  Future<void> resendConfirmationEmail(String email) async {
+    try {
+      await _supabase.auth.resend(
+        type: OtpType.signup,
+        email: email,
+      );
+      _logger.info('Confirmation email resent to: $email');
+    } catch (error) {
+      _logger.severe('Error resending confirmation email', error);
       throw const CustomAuthException(
-        'Erro ao enviar email de recuperação. Tente novamente mais tarde.',
+        'Failed to resend confirmation email. Please try again later.',
       );
     }
   }

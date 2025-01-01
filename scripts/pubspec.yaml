@@ -1,0 +1,8 @@
+name: cspell_updater
+description: Updates cspell.json with new words from the project
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  logging: ^1.2.0
